@@ -7,7 +7,7 @@
     "javascript"
   ],
   "license": "ISC",
-  "author": "Ramu Parsi",
+  "author": "Ramu Parsi", 
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
