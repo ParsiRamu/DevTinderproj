@@ -27,3 +27,9 @@ DEVTINDER-APPLICATION---DEVELOPERS CAN COMMUNICATE
 - Multiple Route Handlers and play with the code
 - next()--refers the  next Route Handler
 - next() and Errors with the res.send().....
+- app.use("/route",[rh1,rh2,rh3,rh4])
+
+-Difference between app.use() and app.all()
+- Authentication with middllewares -admin,user
+- Create a clean  midleware/auth.js in the src folder and import in the app.js
+- check the authentication and play with the code

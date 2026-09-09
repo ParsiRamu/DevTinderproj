@@ -1,24 +1,28 @@
 const express = require("express");
 
+
 const app = express();
 
+const {userAuth ,adminAuth} = require("./Middlewares/auth")
 
-app.use("/user",[(req,res,next)=>{////app.use("/route",[rh1,rh2,rh3,rh4])
-  console.log("This was the response 1")
-  // res.send("Response1!")
-  next()
-  
-},(req,res,next)=>{
-  console.log("this was the response 2")
-  // res.send("Response2!")
-  next()
- 
-},(req,res,next)=>{
-  console.log("this was the response 3")
-   next();
-  res.send("Response3!")
-   
-  }])
+
+
+
+app.use("/admin",adminAuth)
+
+app.use("/user",userAuth,(req,res,next)=>{
+    console.log("this was te users path")
+    res.send("Valid User Authentication")
+    next()})
+
+app.use("/admin/getAllData",(req,res)=>{
+  console.log("This belongs to the GetAll Data")
+  res.send(" User Data sent")
+})
+app.use("/admin/deleteAllData",(req,res)=>{
+  console.log("This belongs to the Delete the data")
+  res.send("Delete User")
+})
 
 app.listen(7777, () => {
   console.log("Server running Sucessfully on port 7777");
