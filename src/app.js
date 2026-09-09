@@ -1,28 +1,34 @@
 const express = require("express");
 
-
 const app = express();
 
-const {userAuth ,adminAuth} = require("./Middlewares/auth")
-
-
-
-
-app.use("/admin",adminAuth)
-
-app.use("/user",userAuth,(req,res,next)=>{
-    console.log("this was te users path")
-    res.send("Valid User Authentication")
-    next()})
-
-app.use("/admin/getAllData",(req,res)=>{
-  console.log("This belongs to the GetAll Data")
-  res.send(" User Data sent")
+// const { userAuth, adminAuth } = require("./Middlewares/auth");
+app.use("/",(err,req,res,next)=>{
+  if (err){
+    res.status(500).send("SomeThing Went Wrong")
+  }
 })
-app.use("/admin/deleteAllData",(req,res)=>{
-  console.log("This belongs to the Delete the data")
-  res.send("Delete User")
+// app.use("/admin",(req,res)=>{
+//   res.send("Admin Panell")
+// })
+
+app.use("/user",(req,res,next)=>{
+  throw new Error("inbinbinbinb")
+   res.send("This was the UsersDATA")
+  // try{
+  //   throw new Error("dvnvnnv")
+  //   res.send("users Data")
+  // }catch(err){
+  //   res.status(500).send("Something error, contact the support")
+  // }
+
 })
+// app.use("/", (err, req, res, next) => {
+//   if (err) {
+//     res.status(500).send("SomeThing Went Wrong");
+//   }
+// });
+
 
 app.listen(7777, () => {
   console.log("Server running Sucessfully on port 7777");
