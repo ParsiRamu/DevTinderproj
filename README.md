@@ -20,3 +20,10 @@ DEVTINDER-APPLICATION---DEVELOPERS CAN COMMUNICATE
 - order of the routes Matters A lot
 - Install the Postman  App and create a Workspace/collection >> test the API calls
 - Make Sure to write the logic and test the  GET,POST,PUT,PATCH,DELETE API Calls
+- Explore the routing And use of the ?,+,*,()
+- Explore the Routing with use of regex-/a/ ,/.fly$/
+- Reading the query Params and Dynamic Routes
+
+- Multiple Route Handlers and play with the code
+- next()--refers the  next Route Handler
+- next() and Errors with the res.send().....
