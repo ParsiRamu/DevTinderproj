@@ -33,3 +33,15 @@ DEVTINDER-APPLICATION---DEVELOPERS CAN COMMUNICATE
 - Authentication with middllewares -admin,user
 - Create a clean  midleware/auth.js in the src folder and import in the app.js
 - check the authentication and play with the code
+- Error Handling With the midleWares---app.use("/", (err, req, res, next) => {})-prefer to place at the end of the code
+- 
+- Create A Database connection to the existed cluster or create a free new cluster from the mongodb atlas
+- npm install Mongoose
+- write the connectDB async()-function with containing the <"Connection URL"/devtindet(DatabaseName)>
+- export the function from config/database.js
+- import in the app.js and make sure to initially connect the database(before) and make then only server listens the port.
+- Create the userSchema & UserModel
+- Create A POST /signup Api to add the data to the database
+- push some documents using Api calls from the postman
+- Error handling using the try and catch
+

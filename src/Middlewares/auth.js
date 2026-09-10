@@ -1,25 +1,15 @@
+
+
 const adminAuth = (req, res, next) => {
-  console.log("This was auth getting to the  Admin ");
-  const token = "xyz";
-  const isAutherized = token === "xyz";
-  if (!isAutherized) {
-    res.status(401).send("Unauthorized Token");
-  } else {
+  console.log("This was Getting to Autherized");
+  const token = "cvb";
+  const isAutherized = token === "cvb";
+  if (isAutherized) {
     next();
-  }
-};
-
-const userAuth = (req, res, next) => {
-  console.log("This was auth getting to the the user ");
-  const token = "xyz";
-  const isAutherized = token === "xyz";
-  if (!isAutherized) {
-    res.status(401).send("Unauthorized Token");
   } else {
-    next();
+    res.status(401).send("Unauthorized Acess");
   }
-};
+}
 
 
-
-module.exports = {userAuth,adminAuth} 
+module.exports = {adminAuth}
