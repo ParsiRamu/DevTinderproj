@@ -45,3 +45,6 @@ DEVTINDER-APPLICATION---DEVELOPERS CAN COMMUNICATE
 - push some documents using Api calls from the postman
 - Error handling using the try and catch
 
+- Difference between the Js object and JSON
+- Add the express.json middleware to the app
+- Make your sighup api dynamic  to recieve the data from the end user 
