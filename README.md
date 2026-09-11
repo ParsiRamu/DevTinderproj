@@ -48,3 +48,7 @@ DEVTINDER-APPLICATION---DEVELOPERS CAN COMMUNICATE
 - Difference between the Js object and JSON
 - Add the express.json middleware to the app
 - Make your sighup api dynamic  to recieve the data from the end user 
+- which Document(older/newer) will be returned when  we find out the findOne() using the sample emailId of the user from the Api call
+- API -get user by EmailId
+- API -get one user by emailId
+- Api -feed/get all the users in the database
