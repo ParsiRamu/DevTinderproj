@@ -52,3 +52,8 @@ DEVTINDER-APPLICATION---DEVELOPERS CAN COMMUNICATE
 - API -get user by EmailId
 - API -get one user by emailId
 - Api -feed/get all the users in the database
+- Create a delete Api - DELETE the user by findByIdandDelete() 
+- Create a updata Api - update the user by findByIdandUpdate() 
+- Mandatory to read the MONGOOSE Documentation 
+- Difference between the Put and Patch
+- Make a Clean code based on the requests which are coming from the endUsers

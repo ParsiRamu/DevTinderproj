@@ -5,6 +5,41 @@ const connectDB = require("./Config/database.js");
 const User = require("./models/user.js");
 
 app.use(express.json());
+//FIND BY ID AND UPDATE THE USER
+app.patch("/user",async (req,res)=>{
+  const userId = req.body.userId
+  const data = req.body
+  const users = await User.findByIdAndUpdate(userId,data)
+  try{
+    if(!userId){
+      res.status(400).send("User Not found for the deletion")
+    }
+    else{
+      res.send("User Updated Sucessfully")
+    }
+  }
+  catch(err){
+    res.status(400).send("something Went Wrong")
+  }
+})
+//Find By userID and delete
+app.delete("/user",async (req,res)=>{
+  const userId = req.body.userId
+  const data = req.body
+  console.log(data)
+  const users = await User.findByIdAndDelete(userId,data)
+  try{
+    if(!users){
+      res.status(404).send("User Not Found for deletion")
+    }
+    else{
+      res.send("user Deleted Sucessfully")
+    } 
+  }
+  catch(err){
+    res.status(400).send("something Went Wrong")
+  }
+})
 
 //GET ONE USER OUT OF THE MULTIPLE USERS FROM THE DATABASE ]
 app.use("/userone", async (req,res)=>{
@@ -46,7 +81,7 @@ app.get("/user",async (req,res)=>{
   }
 
 })
-
+// POST THE DATA FROM THE ENDUSER/POSTMAN
 // app.post("/signup", async (req, res) => {
 //   console.log(req.body)
 //   const user = new User(req.body);
