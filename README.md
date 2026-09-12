@@ -57,3 +57,11 @@ DEVTINDER-APPLICATION---DEVELOPERS CAN COMMUNICATE
 - Mandatory to read the MONGOOSE Documentation 
 - Difference between the Put and Patch
 - Make a Clean code based on the requests which are coming from the endUsers
+
+- Explore the Schema type options from the Documentations
+- Add required,unique,lowercase,min,minLength,trim,max,maxLength
+- Add default 
+- create a custome Validate function for the gender field in the schema
+- Improve the DB schema for all Appropiate Validate functions for the fields in the schema
+- Add TimeStamp for the mongoose builtin given in the schema
+

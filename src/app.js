@@ -9,10 +9,10 @@ app.use(express.json());
 app.patch("/user",async (req,res)=>{
   const userId = req.body.userId
   const data = req.body
-  const users = await User.findByIdAndUpdate(userId,data)
+  const users = await User.findByIdAndUpdate(userId,data,{runValidators:true})
   try{
-    if(!userId){
-      res.status(400).send("User Not found for the deletion")
+    if(!userId){ 
+      res.status(400).send("User Not found for the Updation")
     }
     else{
       res.send("User Updated Sucessfully")
@@ -63,7 +63,7 @@ app.get("/feed", async (req, res) => {
 });
 
 //GET THE USER BY EMAILID
-app.get("/user",async (req,res)=>{
+app.get("/user",async (req,res)=>{ 
   const userEmail = req.body.emailId
 
   const users = await User.find({emailId:userEmail})
@@ -82,18 +82,19 @@ app.get("/user",async (req,res)=>{
 
 })
 // POST THE DATA FROM THE ENDUSER/POSTMAN
-// app.post("/signup", async (req, res) => {
-//   console.log(req.body)
-//   const user = new User(req.body);
+app.post("/signup", async (req, res) => {
+  // console.log(req.body)
+  const user = new User(req.body);
 
-//   try {
-//     await user.save();
-//     res.send("User Data Added Sucessfully");
-//   } catch (err) {
-//     res.status(401).send("Error Saving the users Data");
+  try {
+    await user.save();
+    res.send("User Data Added Sucessfully");
+  } catch (err) {
+    // console.log(err)
+    res.status(400).send(err.message);
 
-//   }
-// });
+  }
+});
 
 connectDB()
   .then(() => {
