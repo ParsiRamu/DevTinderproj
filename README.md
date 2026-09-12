@@ -66,4 +66,8 @@ DEVTINDER-APPLICATION---DEVELOPERS CAN COMMUNICATE
 - Add TimeStamp for the mongoose builtin given in the schema
 - Add Api level Validation -(patch Api)
 - Data Sanitization Add Api level validation for the Each Field 
+- install the validator -npm i validator
+- add the strong Validation for the -Email,Password,Photourl by the (validator.isEmail/isStrongpassword....) function givenby npmValidator
+- Explore the validator Library in the gogle and read the docs
+- NEVER TRUST THE req.body
 
