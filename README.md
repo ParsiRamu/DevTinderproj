@@ -64,4 +64,6 @@ DEVTINDER-APPLICATION---DEVELOPERS CAN COMMUNICATE
 - create a custome Validate function for the gender field in the schema
 - Improve the DB schema for all Appropiate Validate functions for the fields in the schema
 - Add TimeStamp for the mongoose builtin given in the schema
+- Add Api level Validation -(patch Api)
+- Data Sanitization Add Api level validation for the Each Field 
 

@@ -6,20 +6,23 @@ const User = require("./models/user.js");
 
 app.use(express.json());
 //FIND BY ID AND UPDATE THE USER
-app.patch("/user",async (req,res)=>{
-  const userId = req.body.userId
+app.patch("/user/:userId",async (req,res)=>{
+  const userId = req.params?.userId
   const data = req.body
-  const users = await User.findByIdAndUpdate(userId,data,{runValidators:true})
   try{
-    if(!userId){ 
-      res.status(400).send("User Not found for the Updation")
+    const ALLOWED_UPDATES = ["photourl","age","gender","skills","about"]
+    const isUpateAllowed = Object.keys(data).every((k)=>ALLOWED_UPDATES.includes(k));
+    if(!isUpateAllowed){
+      throw new Error("Updates are Not Allowed")
     }
-    else{
-      res.send("User Updated Sucessfully")
-    }
-  }
-  catch(err){
-    res.status(400).send("something Went Wrong")
+    if(data?.skills.length>10){
+      throw new Error("Skill not more then 10")
+    } 
+    const users = await User.findByIdAndUpdate(userId,data,{runValidators:true}) 
+    res.send("User Updated Sucessfully")
+   }
+  catch(err){ 
+    res.status(400).send(err.message)
   }
 })
 //Find By userID and delete
