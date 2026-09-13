@@ -71,3 +71,5 @@ DEVTINDER-APPLICATION---DEVELOPERS CAN COMMUNICATE
 - Explore the validator Library in the gogle and read the docs
 - NEVER TRUST THE req.body
 
+- READ THE MONGOOSE LIBRARY DOCS
+
