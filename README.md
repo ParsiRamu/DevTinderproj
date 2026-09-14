@@ -73,3 +73,4 @@ DEVTINDER-APPLICATION---DEVELOPERS CAN COMMUNICATE
 
 - READ THE MONGOOSE LIBRARY DOCS
 
+- Add the extra field in the schema-models/user.js
