@@ -74,3 +74,7 @@ DEVTINDER-APPLICATION---DEVELOPERS CAN COMMUNICATE
 - READ THE MONGOOSE LIBRARY DOCS
 
 - Add the extra field in the schema-models/user.js
+
+- Validate thedata in the signup Api
+- install the bycrypt library -npm i bcrypt
+- Create the passwordHash using the bcrypt.hash() & save the user with the encrypted password in the database
