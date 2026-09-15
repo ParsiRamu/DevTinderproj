@@ -81,3 +81,10 @@ DEVTINDER-APPLICATION---DEVELOPERS CAN COMMUNICATE
 - Create the login Api 
 - Validate the EmailId
 - Compare the Password entered and existed password in the database by bcrypt.compare()
+
+- Install the cookie-parser
+- just send the dummy cookie to the user
+- Create the GET/profile API and check if you get the cookie back
+- install jsonwebtoken 
+- In Login Api after email and password Validation ,create a JWT token and send it the user in the cookies 
+- read the cookies inside your profile API  and find the LoggedIn User 

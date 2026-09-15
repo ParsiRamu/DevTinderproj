@@ -5,8 +5,11 @@ const connectDB = require("./Config/database.js");
 const User = require("./models/user.js");
 const { validateSignup } = require("./utils/validation.js");
 const bcrypt = require("bcrypt");
+const cookieParser = require("cookie-parser")
+const jwt = require("jsonwebtoken")
 
 app.use(express.json());
+app.use(cookieParser())
 //FIND BY ID AND UPDATE THE USER
 app.patch("/user/:userId", async (req, res) => {
   const userId = req.params?.userId;
@@ -68,6 +71,29 @@ app.get("/feed", async (req, res) => {
   res.send(users);
 });
 
+//Get the User Profie for Cookies
+app.get("/profile",async (req,res)=>{
+  try{
+    const cookies = req.cookies;
+  const {token} = cookies;
+  if(!token){
+    throw new Error("Invalid Token")
+  }
+  const decodedMessage = await jwt.verify(token,"Dev@Tinder790");
+  
+  const {_id} = decodedMessage
+  const user = await User.findById(_id)
+  if(!user){
+    throw new Error("User Does not exist")
+  }
+  
+  
+  res.send(user) 
+  }catch(err){
+    res.status(400).send("ERROR:"+ err.message)
+  }
+  
+})
 //GET THE USER BY EMAILID
 app.get("/user", async (req, res) => {
   try {
@@ -91,13 +117,17 @@ app.post("/signup", async (req, res) => {
     validateSignup(req);
 
     //Encrpt the password
-    const {firstName,lastName,emailId,passWord} = req.body
-    const passWordHash = await bcrypt.hash(passWord,10)
-    console.log(passWordHash)
-
+    const { firstName, lastName, emailId, passWord } = req.body;
+    const passWordHash = await bcrypt.hash(passWord, 10);
+    console.log(passWordHash);
 
     // console.log(req.body)
-    const user = new User({firstName,lastName,emailId,passWord:passWordHash});
+    const user = new User({
+      firstName,
+      lastName,
+      emailId,
+      passWord: passWordHash,
+    });
 
     await user.save();
     res.send("User Data Added Sucessfully");
@@ -107,34 +137,36 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-app.post("/login", async (req,res)=>{
-  try{
+app.post("/login", async (req, res) => {
+  try {
+    const { emailId, passWord } = req.body;
 
-    const {emailId,passWord} = req.body;
-    
-    const user = await User.findOne({emailId:emailId});
-    if(!user){
-      throw new Error("Invalid Credentials")
+    const user = await User.findOne({ emailId: emailId });
+    if (!user) {
+      throw new Error("Invalid Credentials"); 
     }
     const isPasswordValid = await bcrypt.compare(passWord, user.passWord);
-    if(!isPasswordValid){
-      throw new Error("Invalid Credentials")
-    }else{
-      res.send("User Login Sucessfull!")
+    if (isPasswordValid) {
+
+      //Create A JWT token
+      const token = await jwt.sign({_id:user._id},"Dev@Tinder790")
+      
+      //Add the token to cookies and send the response back to the user
+      res.cookie("token",token)
+      res.send("User Login Sucessfull!");
+    } else {
+      throw new Error("Invalid Credentials");
     }
-
-  }catch(err){
-
-    res.status(400).send("Something Went Wrongg!")
-
+  } catch (err) {
+    res.status(400).send("ERROR:" + err.message);
   }
-})
+});
 
 connectDB()
   .then(() => {
     console.log("Database Connection is Established");
     app.listen(7777, () => {
-      console.log("Server running Sucessfully on port 7777"); 
+      console.log("Server running Sucessfully on port 7777");
     });
   })
   .catch((err) => {
