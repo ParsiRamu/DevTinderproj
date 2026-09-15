@@ -107,11 +107,34 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+app.post("/login", async (req,res)=>{
+  try{
+
+    const {emailId,passWord} = req.body;
+    
+    const user = await User.findOne({emailId:emailId});
+    if(!user){
+      throw new Error("Invalid Credentials")
+    }
+    const isPasswordValid = await bcrypt.compare(passWord, user.passWord);
+    if(!isPasswordValid){
+      throw new Error("Invalid Credentials")
+    }else{
+      res.send("User Login Sucessfull!")
+    }
+
+  }catch(err){
+
+    res.status(400).send("Something Went Wrongg!")
+
+  }
+})
+
 connectDB()
   .then(() => {
     console.log("Database Connection is Established");
     app.listen(7777, () => {
-      console.log("Server running Sucessfully on port 7777");
+      console.log("Server running Sucessfully on port 7777"); 
     });
   })
   .catch((err) => {

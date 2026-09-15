@@ -78,3 +78,6 @@ DEVTINDER-APPLICATION---DEVELOPERS CAN COMMUNICATE
 - Validate thedata in the signup Api
 - install the bycrypt library -npm i bcrypt
 - Create the passwordHash using the bcrypt.hash() & save the user with the encrypted password in the database
+- Create the login Api 
+- Validate the EmailId
+- Compare the Password entered and existed password in the database by bcrypt.compare()
