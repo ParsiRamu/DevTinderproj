@@ -93,3 +93,11 @@ DEVTINDER-APPLICATION---DEVELOPERS CAN COMMUNICATE
 - set the Expiry of the JWT Token  and cookies to the 7 days 
 - create a userSchema method to getJWT()
 - create a userSchema method to comparepassword(passwordInputByuser)
+
+- Explore the tinder Api's
+- Create a list of the Api's Just think of 
+- group those Api's As per relates to the respective routing category
+- Read the documentation for the Express.Router
+- create the routes folder for managing the auth,profile, requests routes
+- create the authRouter ,profileRouter,requestsRouter
+- import these routes in app.js 

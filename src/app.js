@@ -2,88 +2,25 @@ const express = require("express");
 
 const app = express();
 const connectDB = require("./Config/database.js");
-const User = require("./models/user.js");
-const { validateSignup } = require("./utils/validation.js");
-const bcrypt = require("bcrypt");
+const authRouter = require("./routes/auth.js")
+const profileRouter  = require("./routes/profile.js")
+const requestRouter = require("./routes/requests.js")
+
+
 const cookieParser = require("cookie-parser");
-const jwt = require("jsonwebtoken");
-const { userAuth } = require("./Middlewares/auth.js");
+
+
 
 app.use(express.json());
 app.use(cookieParser());
 
-//Get the User Profie for Cookies
-app.get("/profile", userAuth, async (req, res) => {
-  try {
-    const user = req.user;
-    if (!user) {
-      throw new Error("User Does not exist");
-    }
+app.use("/",authRouter)
+app.use("/",profileRouter)
+app.use("/",requestRouter)
 
-    res.send(user);
-  } catch (err) {
-    res.status(400).send("ERROR:" + err.message);
-  }
-});
+ 
 
-// POST THE DATA FROM THE ENDUSER/POSTMAN
-app.post("/signup", async (req, res) => {
-  try {
-    //Validation
-    validateSignup(req);
 
-    //Encrpt the password
-    const { firstName, lastName, emailId, passWord } = req.body;
-    const passWordHash = await bcrypt.hash(passWord, 10);
-    console.log(passWordHash);
-
-    // console.log(req.body)
-    const user = new User({
-      firstName,
-      lastName,
-      emailId,
-      passWord: passWordHash,
-    });
-
-    await user.save();
-    res.send("User Data Added Sucessfully");
-  } catch (err) {
-    // console.log(err)
-    res.status(400).send(err.message);
-  }
-});
-
-app.post("/login", async (req, res) => {
-  try {
-    const { emailId, passWord } = req.body;
-
-    const user = await User.findOne({ emailId: emailId });
-    if (!user) {
-      throw new Error("Invalid Credentials");
-    }
-    const isPasswordValid = await user.validatePassword(passWord);
-    if (isPasswordValid) {
-      //Create A JWT token
-      const token = await user.getJWT();
-      
-      res.cookie("token", token, {
-        maxAge: 8 * 60 * 60 * 10000,
-      });
-      // console.log(token);
-      res.send("User Login Sucessfull!");
-    } else {
-      throw new Error("Invalid Credentials");
-    }
-  } catch (err) {
-    res.status(400).send("ERROR:" + err.message);
-  }
-});
-app.post("/sendConnectionrequest", userAuth, async (req, res) => {
-  const user = req.user;
-  console.log("Sending the connection Request");
-
-  res.send(user.firstName + " sent a connection Request");
-});
 
 connectDB()
   .then(() => {
