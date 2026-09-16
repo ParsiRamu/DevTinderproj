@@ -91,3 +91,5 @@ DEVTINDER-APPLICATION---DEVELOPERS CAN COMMUNICATE
 - user Auth Midleware
 -  Add the userAuth middleWare in the profile API and a new sendConnectionRequest API 
 - set the Expiry of the JWT Token  and cookies to the 7 days 
+- create a userSchema method to getJWT()
+- create a userSchema method to comparepassword(passwordInputByuser)

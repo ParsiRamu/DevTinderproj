@@ -7,7 +7,7 @@ const userAuth = async (req, res, next) => {
   if(!token){
     throw new Error("Invalid Token")
   }
-  const decodedobj = await jwt.verify(token, "Dev@Tinder7");
+  const decodedobj = await jwt.verify(token, "Dev@Tinder790");
 
   const {_id} = decodedobj;
 
