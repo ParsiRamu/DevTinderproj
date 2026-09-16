@@ -88,3 +88,6 @@ DEVTINDER-APPLICATION---DEVELOPERS CAN COMMUNICATE
 - install jsonwebtoken 
 - In Login Api after email and password Validation ,create a JWT token and send it the user in the cookies 
 - read the cookies inside your profile API  and find the LoggedIn User 
+- user Auth Midleware
+-  Add the userAuth middleWare in the profile API and a new sendConnectionRequest API 
+- set the Expiry of the JWT Token  and cookies to the 7 days 

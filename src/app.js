@@ -5,111 +5,27 @@ const connectDB = require("./Config/database.js");
 const User = require("./models/user.js");
 const { validateSignup } = require("./utils/validation.js");
 const bcrypt = require("bcrypt");
-const cookieParser = require("cookie-parser")
-const jwt = require("jsonwebtoken")
+const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
+const { userAuth } = require("./Middlewares/auth.js");
 
 app.use(express.json());
-app.use(cookieParser())
-//FIND BY ID AND UPDATE THE USER
-app.patch("/user/:userId", async (req, res) => {
-  const userId = req.params?.userId;
-  const data = req.body;
-  try {
-    const ALLOWED_UPDATES = ["photourl", "age", "gender", "skills", "about"];
-    const isUpateAllowed = Object.keys(data).every((k) =>
-      ALLOWED_UPDATES.includes(k),
-    );
-    if (!isUpateAllowed) {
-      throw new Error("Updates are Not Allowed");
-    }
-    if (data?.skills.length > 10) {
-      throw new Error("Skill not more then 10");
-    }
-    const users = await User.findByIdAndUpdate(userId, data, {
-      runValidators: true,
-    });
-    res.send("User Updated Sucessfully");
-  } catch (err) {
-    res.status(400).send(err.message);
-  }
-});
-//Find By userID and delete
-app.delete("/user", async (req, res) => {
-  const userId = req.body.userId;
-  const data = req.body;
-  console.log(data);
-  const users = await User.findByIdAndDelete(userId, data);
-  try {
-    if (!users) {
-      res.status(404).send("User Not Found for deletion");
-    } else {
-      res.send("user Deleted Sucessfully");
-    }
-  } catch (err) {
-    res.status(400).send("something Went Wrong");
-  }
-});
-
-//GET ONE USER OUT OF THE MULTIPLE USERS FROM THE DATABASE ]
-app.use("/userone", async (req, res) => {
-  const userMail = req.body.emailId;
-
-  const users = await User.findOne({ emailId: userMail });
-  try {
-    if (!users) {
-      res.status(404).send("User Not Found with the matches");
-    } else {
-      res.send(users);
-    }
-  } catch (err) {
-    res.status(400).send("Something went wrong");
-  }
-});
-//GET ALL THE USERS FROM THE DATABASE
-app.get("/feed", async (req, res) => {
-  const users = await User.find({});
-  res.send(users);
-});
+app.use(cookieParser());
 
 //Get the User Profie for Cookies
-app.get("/profile",async (req,res)=>{
-  try{
-    const cookies = req.cookies;
-  const {token} = cookies;
-  if(!token){
-    throw new Error("Invalid Token")
-  }
-  const decodedMessage = await jwt.verify(token,"Dev@Tinder790");
-  
-  const {_id} = decodedMessage
-  const user = await User.findById(_id)
-  if(!user){
-    throw new Error("User Does not exist")
-  }
-  
-  
-  res.send(user) 
-  }catch(err){
-    res.status(400).send("ERROR:"+ err.message)
-  }
-  
-})
-//GET THE USER BY EMAILID
-app.get("/user", async (req, res) => {
+app.get("/profile", userAuth, async (req, res) => {
   try {
-    const userEmail = req.body.emailId;
-
-    const users = await User.find({ emailId: userEmail });
-
-    if (users.length === 0) {
-      res.status(404).send("User Not Found");
-    } else {
-      res.send(users);
+    const user = req.user;
+    if (!user) {
+      throw new Error("User Does not exist");
     }
+
+    res.send(user);
   } catch (err) {
-    res.status(400).send("something went Wrong");
+    res.status(400).send("ERROR:" + err.message);
   }
 });
+
 // POST THE DATA FROM THE ENDUSER/POSTMAN
 app.post("/signup", async (req, res) => {
   try {
@@ -143,16 +59,20 @@ app.post("/login", async (req, res) => {
 
     const user = await User.findOne({ emailId: emailId });
     if (!user) {
-      throw new Error("Invalid Credentials"); 
+      throw new Error("Invalid Credentials");
     }
     const isPasswordValid = await bcrypt.compare(passWord, user.passWord);
     if (isPasswordValid) {
-
       //Create A JWT token
-      const token = await jwt.sign({_id:user._id},"Dev@Tinder790")
-      
+      const token = await jwt.sign({ _id: user._id }, "Dev@Tinder7", {
+        expiresIn: '1d'
+      });
+
       //Add the token to cookies and send the response back to the user
-      res.cookie("token",token)
+      res.cookie("token", token, {
+        maxAge: 8 * 60 * 60 * 10000
+      });
+      console.log(token)
       res.send("User Login Sucessfull!");
     } else {
       throw new Error("Invalid Credentials");
@@ -160,6 +80,12 @@ app.post("/login", async (req, res) => {
   } catch (err) {
     res.status(400).send("ERROR:" + err.message);
   }
+});
+app.post("/sendConnectionrequest", userAuth, async (req, res) => {
+  const user = req.user;
+  console.log("Sending the connection Request");
+
+  res.send(user.firstName + " sent a connection Request");
 });
 
 connectDB()
