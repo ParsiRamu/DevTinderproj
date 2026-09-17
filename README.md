@@ -101,3 +101,7 @@ DEVTINDER-APPLICATION---DEVELOPERS CAN COMMUNICATE
 - create the routes folder for managing the auth,profile, requests routes
 - create the authRouter ,profileRouter,requestsRouter
 - import these routes in app.js 
+- Create the POST /logout Api
+- create the PATCH -/profile/edit Api
+- create the PATCH -/profile/password  Api
+- make you validate all the data in the POST ,PATCH Api's
