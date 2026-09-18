@@ -105,3 +105,14 @@ DEVTINDER-APPLICATION---DEVELOPERS CAN COMMUNICATE
 - create the PATCH -/profile/edit Api
 - create the PATCH -/profile/password  Api
 - make you validate all the data in the POST ,PATCH Api's
+
+- Create the Coonnection request Schema
+- Send Connection request Api
+- Proper Validation of the Api
+- Think about the all corner cases
+- $OR and $and and also $Logical queries in the mongoose Docs
+- Schema.prev("save")-function 
+- Read More about the indexes.
+- Why do we need the index?
+- What are the Advantages and diasadvantages of creating the indexes.
+- Read this Article About the Compound indexes- https://www.mongodb.com/docs/manual/core/indexes/index-types/index-compound/
