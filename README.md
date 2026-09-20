@@ -118,3 +118,4 @@ DEVTINDER-APPLICATION---DEVELOPERS CAN COMMUNICATE
 - Read this Article About the Compound indexes- https://www.mongodb.com/docs/manual/core/indexes/index-types/index-compound/
 
 - optimized the connectioRequest API
+- Dive on mongoose Pre("save",fn) & post("save",fn) functions
