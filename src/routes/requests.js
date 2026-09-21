@@ -29,7 +29,7 @@ requestRouter.post(
         touserId,
         status,
       });
-    //  Handle to send the request between sender and receiver...only one could send the request between those...
+      //  Handle to send the request between sender and receiver...only one could send the request between those...
       const existingConnectionRequest = await ConnectionRequest.findOne({
         $or: [
           {
@@ -46,7 +46,7 @@ requestRouter.post(
       if (existingConnectionRequest) {
         return res
           .status(400)
-          .send({ message: "Connectionrequest Already exists!" });
+          .send({ message: "Connection request Already exists!" });
       }
 
       const data = await connectionRequest.save();
@@ -58,6 +58,43 @@ requestRouter.post(
       });
     } catch (err) {
       res.status(400).send(err.message);
+    }
+  },
+);
+
+requestRouter.post(
+  "/request/review/:status/:requestId",
+  userAuth,
+  async (req, res) => {
+    try {
+      const loggedInUser = req.user;
+
+      const { status, requestId } = req.params;
+
+      const allowedStatus = ["accepted", "rejected"];
+      if (!allowedStatus.includes(status)) {
+        res.status(400).json({ message: "Status Not Allowed!" });
+      }
+
+      const connectionRequest = await ConnectionRequest.findOne({
+        _id: requestId,
+        touserId: loggedInUser._id,
+        status: "interested",
+      });
+
+      if (!connectionRequest) {
+        return res
+          .status(404)
+          .json({ message: "Connection Request Not Found!" });
+      }
+
+      connectionRequest.status = status;
+
+      const data = await connectionRequest.save();
+
+      res.send({ message: `Connection Request Accepted!`, data });
+    } catch (err) {
+      res.status(400).send("ERROR: " + err.message);
     }
   },
 );
