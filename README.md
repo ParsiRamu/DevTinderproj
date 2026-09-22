@@ -123,3 +123,14 @@ DEVTINDER-APPLICATION---DEVELOPERS CAN COMMUNICATE
 - Written the code for the POST-/request/review/:status/:requestId with proper Validation
 - Read about the ref&populate from mongoose https://mongoosejs.com/docs/populate.html
 - Created a /user/request/received request with all the checks for getting all the interested connection Requests
+- created the user/connections API -get all the loggedInuser Connections
+
+- Create the GET /feed API 
+- Explore the mongoose $nin,$ne,$and and other comparision query operators
+
+#NOTES
+-  /feed?page=1&limit=10 ==> 1-10  - .skip(0) & limit(10)
+-  /feed?page=2&limit=10 ==> 11-20  - .skip(10) & limit(10)
+-  /feed?page=3&limit=10 ==> 21-30  - .skip(20) & limit(10)
+
+-    ---skip() = (page-1)*limit
