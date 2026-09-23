@@ -134,3 +134,5 @@ DEVTINDER-APPLICATION---DEVELOPERS CAN COMMUNICATE
 -  /feed?page=3&limit=10 ==> 21-30  - .skip(20) & limit(10)
 
 -    ---skip() = (page-1)*limit
+
+- Test the pagination for the /feed Api
