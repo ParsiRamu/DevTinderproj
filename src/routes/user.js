@@ -3,7 +3,7 @@ const express = require("express");
 const userRouter = express.Router();
 const { userAuth } = require("../Middlewares/auth");
 const ConnectionRequest = require("../models/connectionRequest");
-const USER_PUB_DATA = "firstName lastName gender skills about";
+const USER_PUB_DATA = "firstName lastName gender skills about photoUrl age";
 const User = require("../models/user");
 
 userRouter.get("/user/request/received", userAuth, async (req, res) => {
@@ -12,6 +12,7 @@ userRouter.get("/user/request/received", userAuth, async (req, res) => {
 
     const connectionRequest = await ConnectionRequest.find({
       touserId: loggedInuser._id,
+      status: "interested",
     }).populate("fromuserId", USER_PUB_DATA);
     res.json({ message: "user requests", connectionRequest });
   } catch (err) {
@@ -56,8 +57,8 @@ userRouter.get("/feed", userAuth, async (req, res) => {
 
     const page = parseInt(req.query.page) || 1; //1-default page
     let limit = parseInt(req.query.limit) || 10; //10-default limit
-    limit = limit > 50 ? 50 : limit; 
-    const skip = (page - 1) * limit;  
+    limit = limit > 50 ? 50 : limit;
+    const skip = (page - 1) * limit;
 
     const connectionRequest = await ConnectionRequest.find({
       $or: [{ fromuserId: loggedInUser._id }, { touserId: loggedInUser._id }],
@@ -76,8 +77,8 @@ userRouter.get("/feed", userAuth, async (req, res) => {
       ],
     })
       .select(USER_PUB_DATA)
-      .skip(skip) 
-      .limit(limit); 
+      .skip(skip)
+      .limit(limit);
 
     res.json(users);
   } catch (err) {

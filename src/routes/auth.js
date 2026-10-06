@@ -19,8 +19,12 @@ authRouter.post("/signup", async (req, res) => {
       passWord: passwordHash,
     });
 
-    await user.save();
-    res.send("user Added Sucessfully!");
+    const saveduser = await user.save();
+     const token = await user.getJWT();
+     res.cookie("token", token,{
+      expires: new Date(Date.now()+ 8*3600000)
+     });
+    res.json({message:"user Added Sucessfully!", data : saveduser });
   } catch (err) {
     res.status(400).send(`ERROR:${err.message}`);
   }
@@ -38,9 +42,9 @@ authRouter.post("/login", async (req, res) => {
     if (isPasswordValid) {
       const token = await user.getJWT();
       res.cookie("token", token);
-      res.send("User Login SucessFully!!");
+      res.send(user);
     } else {
-      throw new Error("Invalid User");
+      throw new Error("Invalid Credentials");
     }
   } catch (err) {
     res.status(400).send("ERROR:" + err.message);

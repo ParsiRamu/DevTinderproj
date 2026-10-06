@@ -73,7 +73,7 @@ requestRouter.post(
 
       const allowedStatus = ["accepted", "rejected"];
       if (!allowedStatus.includes(status)) {
-        res.status(400).json({ message: "Status Not Allowed!" });
+       return  res.status(400).json({ message: "Status Not Allowed!" });
       }
 
       const connectionRequest = await ConnectionRequest.findOne({
@@ -92,7 +92,7 @@ requestRouter.post(
 
       const data = await connectionRequest.save();
 
-      res.send({ message: `Connection Request Accepted!`, data });
+      res.send({ message: `Connection Request ${status}!`, data });
     } catch (err) {
       res.status(400).send("ERROR: " + err.message);
     }
