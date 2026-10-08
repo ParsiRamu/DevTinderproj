@@ -10,6 +10,8 @@ const cors = require("cors");
 
 const cookieParser = require("cookie-parser");
 
+require("dotenv").config();
+
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -17,9 +19,9 @@ app.use(
   }),
 );
 app.use(express.json());
-app.use(cookieParser()); 
+app.use(cookieParser());
 
-app.use("/", authRouter); 
+app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
@@ -27,11 +29,11 @@ app.use("/", userRouter);
 connectDB()
   .then(() => {
     console.log("Database Connection is Established");
-    app.listen(7777, () => {
+    app.listen(process.env.PORT, () => {
       console.log("Server running Sucessfully on port 7777");
     });
   })
   .catch((err) => {
-    console.log("DataBase is not connected"); 
-    console.log(err)
-  });  
+    console.log("DataBase is not connected");
+    console.log(err);
+  });
