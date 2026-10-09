@@ -11,6 +11,8 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
 require("dotenv").config();
+require("./utils/cronjob.js");
+require("./utils/datefns.js")
 
 app.use(
   cors({
