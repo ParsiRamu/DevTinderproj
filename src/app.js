@@ -1,6 +1,7 @@
 const express = require("express");
 
 const app = express();
+
 const connectDB = require("./Config/database.js");
 const authRouter = require("./routes/auth.js");
 const profileRouter = require("./routes/profile.js");
@@ -14,6 +15,8 @@ const cookieParser = require("cookie-parser");
 require("dotenv").config();
 require("./utils/cronjob.js");
 require("./utils/datefns.js")
+
+const PORT = process.env.PORT || 7777;
 
 app.use(
   cors({
@@ -33,8 +36,8 @@ app.use("/", userRouter);
 connectDB()
   .then(() => {
     console.log("Database Connection is Established");
-    app.listen(process.env.PORT, () => {
-      console.log("Server running Sucessfully on port 7777");
+    app.listen(PORT, "127.0.0.1", () => {
+      console.log(`Server running on port ${PORT}`);
     });
   })
   .catch((err) => {
