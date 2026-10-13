@@ -8,16 +8,16 @@ const profileRouter = require("./routes/profile.js");
 const requestRouter = require("./routes/requests.js");
 const userRouter = require("./routes/user.js");
 const cors = require("cors");
-const http = require("http")
-
+const http = require("http");
 
 const cookieParser = require("cookie-parser");
 const initializeSocket = require("./utils/socket.js");
+const chatRouter = require("./routes/chat.js");
 // const paymentRouter = require("./routes/payment.js");
 
 require("dotenv").config();
 require("./utils/cronjob.js");
-require("./utils/datefns.js")
+require("./utils/datefns.js");
 
 const PORT = process.env.PORT || 7777;
 
@@ -34,13 +34,11 @@ app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
+app.use("/", chatRouter);
 // app.use("/", paymentRouter);
 
-
-const Server = http.createServer(app)
-initializeSocket(Server)
-
-
+const Server = http.createServer(app);
+initializeSocket(Server);
 
 connectDB()
   .then(() => {
